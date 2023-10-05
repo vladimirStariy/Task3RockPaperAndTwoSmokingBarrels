@@ -100,7 +100,7 @@
             if (userInput == botInput)
             {
                 Console.WriteLine("Draw");
-                Console.WriteLine("HMAC" + MoveHasher.GetHMACByMove(_movesList.GetMoveById(userInput)).ToUpper());
+                Console.WriteLine("HMAC key: " + bot.hmac.key.ToUpper());
                 return;
             }
 
@@ -134,7 +134,7 @@
                 }
             }
 
-            Console.WriteLine("HMAC: " + MoveHasher.GetHMACByMove(_movesList.GetMoveById(userInput)).ToUpper());
+            Console.WriteLine("HMAC key: " + bot.hmac.key.ToUpper());
         }
 
         public void GameOver()

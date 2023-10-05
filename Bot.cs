@@ -6,14 +6,15 @@ namespace Task3RockPaperAndTwoSmokingBarrels
     public class Bot
     {
         private int maxMoveId = 0;
-        
+        public HMAC hmac;
+
         public Bot(int maxMoveId) { this.maxMoveId = maxMoveId; }
 
         public int GetBotMove(MovesList moves)
         {
             var moveId = GetBotMoveId(maxMoveId);
-            var HMAC = MoveHasher.GetHMACByMove(moves.Items.Where(x => x.Id == moveId).Select(x => x.Name).FirstOrDefault());
-            Console.WriteLine("HMAC: " + HMAC.ToUpper());
+            hmac = MoveHasher.GetHMACByMove(moves.Items.Where(x => x.Id == moveId).Select(x => x.Name).FirstOrDefault());
+            Console.WriteLine("HMAC: " + hmac.message.ToUpper());
             return moveId;
         }
 
