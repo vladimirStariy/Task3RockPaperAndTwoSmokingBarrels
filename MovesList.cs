@@ -1,12 +1,15 @@
-﻿namespace Task3RockPaperAndTwoSmokingBarrels
+﻿using Org.BouncyCastle.Math.EC.Rfc7748;
+using System.Linq;
+
+namespace Task3RockPaperAndTwoSmokingBarrels
 {
     public class MovesList
     {
         public Move[] Items { get; private set; }
 
-        private int offset { get; set; }
+        public int offset { get; set; }
 
-        public bool TryCreateMovesList(string input)
+        public bool TryInitializeMovesList(string input)
         {
             var _items = input.Split(' ').ToArray().Where(x => !string.IsNullOrEmpty(x)).ToArray();
             if (ValidateInput(_items))
@@ -14,8 +17,8 @@
                 Items = new Move[_items.Length];
                 for (int i = 0; i < _items.Length; i++)
                 {
-                    Items[i].Id = i + 1;
-                    Items[i].Name = _items[i];
+                    Move move = new Move(i + 1, _items[i]);
+                    Items[i] = move;
                 }
                 offset = Items.Length / 2;
                 return true;
@@ -35,75 +38,68 @@
         {
             for (int i = 0; i < Items.Length; i++)
             {
-                Console.WriteLine($"{Items[i]} - {Items[i].Name}");
+                Console.WriteLine($"{Items[i].Id} - {Items[i].Name}");
             }
             Console.WriteLine("0 - exit");
             Console.WriteLine("? - help");
-        }
-
-        public void CompareInputs(int userInput, int botInput)
-        {
-            Console.WriteLine("User input: " + userInput);
-            Console.WriteLine("Bot input: " + botInput);
-
-            if (userInput == botInput)
-            {
-                Console.WriteLine("Draw");
-                return;
-            }
-
-            var max = Math.Max(userInput, botInput);
-            
-            if (userInput < botInput)
-            {
-                var a_dist = max - userInput;
-                
-                if (a_dist <= offset)
-                {
-                    Console.WriteLine("User wins");
-                } 
-                else
-                {
-                    Console.WriteLine("Bot wins");
-                }
-            }
-            
-            if (userInput > botInput)
-            {
-                var a_dist = Items.Count() - max + botInput;
-
-                if(a_dist <= offset)
-                {
-                    Console.WriteLine("User wins");
-                }
-                else
-                {
-                    Console.WriteLine("Bot wins");
-                }
-
-            }
         }
 
         private bool ValidateInput(string[] items)
         {
             if (items.Length == 0)
             {
+                Console.Clear();
                 Console.WriteLine("No options.");
                 return false;
             }
             if (items.Length < 3)
             {
+                Console.Clear();
                 Console.WriteLine("The number of options is less than 3.");
                 return false;
             }
             if (items.Length % 2 == 0)
             {
+                Console.Clear();
                 Console.WriteLine("The number of options is honest.");
                 return false;
             }
-            // допилить проверку на повторы
+            if(items.Length != items.Distinct().Count())
+            {
+                Console.Clear();
+                Console.WriteLine("Duplicate values.");
+                return false;
+            }
 
             return true;
+        }
+
+        public bool ValidateMoveInput(string input)
+        {
+            if(input != null)
+            {
+                var _input = input.Trim(' ');
+                if(_input == "0" || _input == "?") return true;
+                int userInput;
+                try
+                {
+                    userInput = Convert.ToInt32(_input);
+                }
+                catch
+                {
+                    return false;
+                }  
+                for(int i = 0; i < Items.Length; i++)
+                {
+                    if (Items[i].Id == userInput)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else            
+                return false;
         }
     }
 }
