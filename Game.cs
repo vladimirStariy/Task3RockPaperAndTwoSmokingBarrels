@@ -134,7 +134,7 @@
                 }
             }
 
-            Console.WriteLine("HMAC" + MoveHasher.GetHMACByMove(_movesList.GetMoveById(userInput)).ToUpper());
+            Console.WriteLine("HMAC: " + MoveHasher.GetHMACByMove(_movesList.GetMoveById(userInput)).ToUpper());
         }
 
         public void GameOver()
