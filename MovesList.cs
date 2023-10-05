@@ -9,15 +9,14 @@ namespace Task3RockPaperAndTwoSmokingBarrels
 
         public int offset { get; set; }
 
-        public bool TryInitializeMovesList(string input)
+        public bool TryInitializeMovesList(string[] input)
         {
-            var _items = input.Split(' ').ToArray().Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            if (ValidateInput(_items))
+            if (ValidateInput(input))
             {
-                Items = new Move[_items.Length];
-                for (int i = 0; i < _items.Length; i++)
+                Items = new Move[input.Length];
+                for (int i = 0; i < input.Length; i++)
                 {
-                    Move move = new Move(i + 1, _items[i]);
+                    Move move = new Move(i + 1, input[i]);
                     Items[i] = move;
                 }
                 offset = Items.Length / 2;
@@ -50,25 +49,25 @@ namespace Task3RockPaperAndTwoSmokingBarrels
             {
                 Console.Clear();
                 Console.WriteLine("No options.");
-                return false;
+                Environment.Exit(0);
             }
             if (items.Length < 3)
             {
                 Console.Clear();
                 Console.WriteLine("The number of options is less than 3.");
-                return false;
+                Environment.Exit(0);
             }
             if (items.Length % 2 == 0)
             {
                 Console.Clear();
                 Console.WriteLine("The number of options is honest.");
-                return false;
+                Environment.Exit(0);
             }
             if(items.Length != items.Distinct().Count())
             {
                 Console.Clear();
                 Console.WriteLine("Duplicate values.");
-                return false;
+                Environment.Exit(0);
             }
 
             return true;

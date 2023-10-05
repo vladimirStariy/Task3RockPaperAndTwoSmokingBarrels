@@ -1,13 +1,16 @@
 ﻿using Task3RockPaperAndTwoSmokingBarrels;
 
+Console.Clear();
+
+string[] values = Environment.GetCommandLineArgs();
+
 bool isOver = false;
 
 Game game = new Game();
 
 while (!game.isValidated)
 {
-    string input = Console.ReadLine();
-    if(game.ValidateGame(input))
+    if (game.ValidateGame(values))
     {
         break;
     }

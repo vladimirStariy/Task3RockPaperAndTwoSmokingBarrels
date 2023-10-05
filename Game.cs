@@ -14,9 +14,10 @@
             isValidated = false;
         } 
 
-        public bool ValidateGame(string input)
+        public bool ValidateGame(string[] input)
         {
-            if (_movesList.TryInitializeMovesList(input))
+            var clearedInput = input.Skip(1).ToArray();
+            if (_movesList.TryInitializeMovesList(clearedInput))
             {
                 isValidated = true;
                 helpTable = new HelpTable(_movesList);
@@ -72,7 +73,7 @@
                     {
                         Console.WriteLine("Game over.");
                         userIsMakeMove = false;
-                        return -1;
+                        Environment.Exit(0);
                     }
                     if (userInput == "?")
                     {
